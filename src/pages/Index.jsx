@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import { Container, Text, VStack, Heading, Box, Image, Link, HStack, Button } from "@chakra-ui/react";
+import { Container, Text, VStack, Heading, Box, Image, Link, HStack, Button, useColorModeValue } from "@chakra-ui/react";
 import { FaTwitter, FaGithub, FaLinkedin } from "react-icons/fa";
 import { Link as RouterLink } from "react-router-dom";
 
 const Index = () => {
   const [posts, setPosts] = useState([]);
+
+  const bg = useColorModeValue("gray.100", "gray.700");
+  const color = useColorModeValue("black", "white");
 
   useEffect(() => {
     const storedPosts = JSON.parse(localStorage.getItem("posts")) || [];
@@ -12,7 +15,7 @@ const Index = () => {
   }, []);
 
   return (
-    <Container centerContent maxW="container.md" height="100vh" display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+    <Container centerContent maxW="container.md" height="100vh" display="flex" flexDirection="column" justifyContent="center" alignItems="center" bg={bg} color={color}>
       <VStack spacing={4}>
         <Heading as="h1" size="2xl">Welcome to My Blog</Heading>
         <Box boxSize="sm">
@@ -36,7 +39,7 @@ const Index = () => {
           Add New Post
         </Button>
         {posts.map((post, index) => (
-          <Box key={index} p={5} shadow="md" borderWidth="1px" borderRadius="md" width="100%">
+          <Box key={index} p={5} shadow="md" borderWidth="1px" borderRadius="md" width="100%" bg={bg} color={color}>
             <Heading fontSize="xl">{post.title}</Heading>
             {post.image && <Image src={post.image} alt={post.title} borderRadius="md" />}
             <Text mt={4}>{post.content}</Text>

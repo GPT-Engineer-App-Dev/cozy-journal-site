@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Container, VStack, Input, Textarea, Button, Image, Box } from "@chakra-ui/react";
+import { Container, VStack, Input, Textarea, Button, Image, Box, useColorModeValue } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 const AddPost = () => {
@@ -7,6 +7,8 @@ const AddPost = () => {
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
   const navigate = useNavigate();
+  const bg = useColorModeValue("gray.100", "gray.700");
+  const color = useColorModeValue("black", "white");
 
   const handleImageChange = (e) => {
     setImage(URL.createObjectURL(e.target.files[0]));
@@ -22,7 +24,7 @@ const AddPost = () => {
   };
 
   return (
-    <Container centerContent>
+    <Container centerContent bg={bg} color={color}>
       <VStack spacing={4} as="form" onSubmit={handleSubmit}>
         <Input
           placeholder="Title"
