@@ -1,13 +1,31 @@
 import { useEffect, useState } from "react";
-import { Container, Text, VStack, Heading, Box, Image, Link, HStack, Button, useColorModeValue } from "@chakra-ui/react";
+import { Container, Text, VStack, Heading, Box, Image, Link, HStack, Button, useColorModeValue, useToast } from "@chakra-ui/react";
 import { FaTwitter, FaGithub, FaLinkedin } from "react-icons/fa";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 const Index = () => {
   const [posts, setPosts] = useState([]);
 
   const bg = useColorModeValue("gray.100", "gray.700");
   const color = useColorModeValue("black", "white");
+
+  const navigate = useNavigate();
+  const toast = useToast();
+
+  const handleDelete = (index) => {
+    if (window.confirm("Are you sure you want to delete this post?")) {
+      const updatedPosts = posts.filter((_, i) => i !== index);
+      localStorage.setItem("posts", JSON.stringify(updatedPosts));
+      setPosts(updatedPosts);
+      toast({
+        title: "Post deleted.",
+        description: "The post has been deleted successfully.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
 
   useEffect(() => {
     const storedPosts = JSON.parse(localStorage.getItem("posts")) || [];
@@ -43,6 +61,9 @@ const Index = () => {
             <Heading fontSize="xl">{post.title}</Heading>
             {post.image && <Image src={post.image} alt={post.title} borderRadius="md" />}
             <Text mt={4}>{post.content}</Text>
+            <Button colorScheme="red" onClick={() => handleDelete(index)} mt={4}>
+              Delete Post
+            </Button>
           </Box>
         ))}
       </VStack>
